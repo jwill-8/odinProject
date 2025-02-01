@@ -1,0 +1,41 @@
+Is a CSS framework like Tailwind a good fit for the project?
+ Frameworks typically bundle their own normalize and/or reset.
+
+
+Writing CSS from scratch? Start by adding modern-normalize. 
+This gives you border-box and will fix bugs, accessibility issues, 
+and other undesirable behavior that might otherwise go unnoticed during development 
+and end up impacting your users.
+
+
+If you are going for a browser-default aesthetic, 
+then you might not need a CSS reset. Otherwise seriously consider adding one, 
+like the lightweight version below. It will save you a lot of repetitive styling 
+in the long run. Also, it can be risky to add a CSS reset late in a project, 
+so this is best decided up front.
+
+
+@import "modern-normalize";
+
+:root {
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, figure, p, ol, ul {
+  margin: 0;
+}
+
+ol[role="list"], ul[role="list"] {
+  list-style: none;
+  padding-inline: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+img {
+  display: block;
+  max-inline-size: 100%;
+}
