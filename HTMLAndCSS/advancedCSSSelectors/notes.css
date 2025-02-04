@@ -1,0 +1,31 @@
+/* 
+descendant combinator::
+Elements matched by the second selector are selected/styled IF they have ANY
+ancestor that matches the first selector 
+body article p {
+}
+*/ 
+
+/* 
+child combinator::
+Only direct children of first selector are selected/styled. 
+In this example, only li elements of the ul are styled
+ul > li {
+  border-top: 5px solid red;
+}
+*/
+
+/* 
+Next sibiling combinator: 
+styles ALL intances where the second selector is DIRECTLY followed by the first
+h1 + p {
+}
+*/
+
+/*
+Subsequent sibiling combinator: 
+style ALL instances where the second combinator is preceded by the first:
+h1 ~S p {
+}
+*/
+

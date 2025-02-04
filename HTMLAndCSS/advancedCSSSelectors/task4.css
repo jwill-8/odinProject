@@ -1,0 +1,15 @@
+body {
+    font: 1.2em / 1.5 sans-serif;
+  }
+
+h2 + p {
+    color: red;
+}
+
+.list {
+    list-style: none;
+}
+
+.list > li {
+    border-bottom: 1px solid grey;
+}
