@@ -1,0 +1,162 @@
+.roboto-mono-jw {
+  font-family: "Roboto Mono", serif;
+  font-optical-sizing: auto;
+  font-weight: 350;
+  font-style: normal;
+}
+
+body {
+  font-family: "Roboto Mono";
+  margin: 0px;
+}
+
+div {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  flex-direction: row;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left {
+  height: 100vh;
+  background: url(stars.avif) no-repeat center center;
+  background-size: cover;
+  flex: 1;
+  position: relative;
+}
+
+.imagebox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: white;
+  height: 20vh;
+  margin-top: 20vh;
+  background: rgb(0 0 0 / 50%);
+}
+
+.credit {
+  color: aliceblue;
+}
+
+.right {
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.top {
+  background-color: #e0e0e0;
+  font-size: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.text1 {
+  margin-left: 2.5%;
+  margin-right: 43%;
+  margin-bottom: 2%;
+}
+
+.text2 {
+  margin-left: 2.5%;
+  margin-bottom: 2%;
+}
+
+.credit {
+  font-size: 10px;
+  position: absolute;
+  bottom: 10%;
+  left: 50%; /* moves l edge of .credit to center */
+  transform: translateX(
+    -50%
+  ); /*Pulls it back left by half of its own width, perfectly centering*/
+}
+
+.credit a {
+  color: lightskyblue;
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.bottom {
+  flex: 1;
+  background-color: #e0e0e0;
+  padding: 20px;
+}
+
+button {
+  background-color: lightskyblue;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  width: 15%;
+  height: 100%;
+}
+
+form {
+  width: 60%;
+  max-width: 500px;
+}
+
+fieldset {
+  border: solid lightskyblue;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+  gap: 15px 30px; /* 15px row gap, 30px column gap */
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  grid-column: span 2; /* Centers legend across both columns */
+}
+
+fieldset div {
+  display: flex;
+  flex-direction: column;
+}
+
+.login {
+  color: lightskyblue;
+}
+
+/* Ensure inputs take full width of their column */
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Keep existing styles */
+input:invalid {
+  border-color: red;
+}
+
+input:focus {
+  outline-color: blue;
+  box-shadow: 2px 2px 5px lightgray;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}

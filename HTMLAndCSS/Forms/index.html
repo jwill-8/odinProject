@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JW Odin Project Sign Up Form</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <div class="imagebox">
+          <img
+            src="odin.png"
+            alt="Odin image goes here"
+            style="height: 80%; width: auto"
+          />
+          JW ODIN PROJECT
+        </div>
+        <div class="credit">
+          Photo by
+          <a class="pictcredit" href="https://unsplash.com/@haliewestphoto">
+            Halie West</a
+          >
+          on
+          <a
+            class="pictcredit"
+            href="https://unsplash.com/photos/the-night-sky-is-filled-with-stars-and-trees-UWni0vqQotc"
+            >Unsplash</a
+          >
+        </div>
+      </div>
+      <div class="right">
+        <div class="top">
+          <div class="text1">
+            This is not a real online service! You know you need something like
+            this in your life to help you realize your deepest dreams. Sign up
+            <em>now</em> to get started.
+          </div>
+          <div class="text2">You <em>know</em> you want to.</div>
+        </div>
+
+        <div class="middle">
+          <form action="#" method="post">
+            <fieldset>
+              <legend>Let's do this</legend>
+              <div>
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstname" id="firstname" />
+              </div>
+              <div>
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastname" id="lastname" />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" />
+              </div>
+              <div>
+                <label for="phonenumber">Phone Number</label>
+                <input
+                  type="tel"
+                  name="phonenumber"
+                  id="phonenumber"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                />
+              </div>
+              <div>
+                <label for="password">Enter Password</label>
+                <input
+                  type="password"
+                  name="userpassword"
+                  id="userpassword"
+                  required
+                />
+              </div>
+              <div>
+                <label for="confirmpassword">Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmpassword"
+                  id="confirmpassword"
+                  required
+                />
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="bottom">
+          <div class="button">
+            <button>Create Account</button>
+          </div>
+          <div>
+            Already have an account?
+            <a class="login" href=""> Log In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
