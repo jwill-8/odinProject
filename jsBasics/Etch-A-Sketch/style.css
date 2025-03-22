@@ -1,0 +1,57 @@
+body{
+    height: 100vh;
+    display:flex;
+    justify-content: space-evenly;
+    background: linear-gradient(to top right, black, whitesmoke);
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    /* align-self: end; */
+    /* justify-self: space-evenly; */
+    width: 700px;
+    height: 700px;
+    margin-top: 50px;
+}
+
+.button-hub{
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 300px; /* I like where this puts the buttons */
+}
+
+
+.reset-grid {
+    background-color: whitesmoke;
+    border-radius: 30px;
+    size: 100px;
+    color: red;
+    font-size: 1.2em;
+    height: 50px;
+}
+
+.change-grid-dims {
+    background-color: whitesmoke;
+    border-radius: 30px;
+    size: 100px;
+    color: green;
+    font-size: 1.2em;
+    height: 50px;
+}
+
+.sketch-row {
+    display: flex;
+    flex: 1; /* Each row takes equal space */
+}
+
+.sketch-cell {
+    flex: 1; /* Each cell takes equal space within the row */
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.color-box {
+    background-color: black;
+}
