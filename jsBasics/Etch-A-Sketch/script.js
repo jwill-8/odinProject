@@ -1,29 +1,29 @@
 const container = document.querySelector(".container");
-const reset = document.querySelector(".reset-grid")
-const changeGridDimsButton = document.querySelector(".change-grid-dims")
+const reset = document.querySelector(".reset-grid");
+const changeGridDimsButton = document.querySelector(".change-grid-dims");
 // sets up inital 16x16 grid
-toGrid(container, 16)
+toGrid(container, 16);
 
 // reset grid back to 16x16
 reset.addEventListener("click", () => {
-  toGrid(container, 16)
-})
+  toGrid(container, 16);
+});
 
 changeGridDimsButton.addEventListener("click", () => {
-  const userDims = prompt("Enter Number For Grid Layout - Must Bee <= 100")
+  const userDims = prompt("Enter Number For Grid Layout - Must Bee <= 100");
   // if > 100 default to 16
   if (Number(userDims) > 100) {
-    alert("The value you enetered was > 100. Defaulting to 16x16 grid")
-    return
+    alert("The value you enetered was > 100. Defaulting to 16x16 grid");
+    return;
   }
-  toGrid(container, Number(userDims))
-})
+  toGrid(container, Number(userDims));
+});
 
 // change grid dims to custom dim x dim layout
 
 function toGrid(container, dim) {
-  // reset if needed 
-  container.innerHTML = ""
+  // reset if needed
+  container.innerHTML = "";
   for (let i = 1; i <= dim; i++) {
     // create 16 rows, of 16 elemnts (cols) which gets us to
     // 16x16 grid
@@ -38,11 +38,11 @@ function toGrid(container, dim) {
       const divEl = document.createElement("div");
       // apply class
       divEl.classList.add("sketch-cell");
-    
+
       // add listener - apply class that "fills" divEl
       divEl.addEventListener("mouseover", () => {
-          divEl.classList.add("color-box")
-      })
+        divEl.classList.add("color-box");
+      });
       // add listener - rm class that fills divEl
       // append
       divRow.appendChild(divEl);
@@ -52,7 +52,7 @@ function toGrid(container, dim) {
 }
 
 function changeGridDims(container, newDims) {
-  container.innerHTML = ""
+  container.innerHTML = "";
 
-  toGrid(newDims)
+  toGrid(newDims);
 }
