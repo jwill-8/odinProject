@@ -2,9 +2,7 @@ const myLibrary = [];
 const modal = document.querySelector(".modal");
 const openModal = document.getElementById("add-book");
 const closeModal = document.querySelector(".close");
-const bookForm = document.querySelector('#book-form');
-
-
+const bookForm = document.querySelector("#book-form");
 
 // Control modal appear/disapear
 openModal.addEventListener("click", () => {
@@ -21,18 +19,18 @@ window.addEventListener("click", (e) => {
   }
 });
 
-//Add event listener that adds books to lib 
-bookForm.addEventListener('submit', function(event) {
+//Add event listener that adds books to lib
+bookForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const titleInput = document.querySelector('#title');
-  const authorInput = document.querySelector('#author');
-  const pagesInput = document.querySelector('#pages');
-  const readInput = document.querySelector('#read');
+  const titleInput = document.querySelector("#title");
+  const authorInput = document.querySelector("#author");
+  const pagesInput = document.querySelector("#pages");
+  const readInput = document.querySelector("#read");
 
   const title = titleInput.value.trim();
   const author = authorInput.value.trim();
-  const pages = pagesInput.value.trim(); 
+  const pages = pagesInput.value.trim();
   const read = readInput.checked;
 
   const newBook = new Book(title, author, pages, read);
@@ -67,7 +65,7 @@ function displayBooksInLibrary(myLibrary) {
   // query selector
   const docLibrary = document.querySelector("#library");
   // clear contents before rerender
-  docLibrary.innerHTML = ""
+  docLibrary.innerHTML = "";
 
   myLibrary.forEach((book) => {
     const bookContainer = document.createElement("div");

@@ -58,24 +58,24 @@ body {
   transform: scale(1.1);
 }
 
-.modal{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    top: 0;
-    display: none;
-    z-index: 100;
+.modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  display: none;
+  z-index: 100;
 }
 
-.modal-content{
-    position: relative;
-    margin: auto;
-    top: 50px;
-    width: 350px;
-    background-color: white;
-    padding: 25px;
-    color: black;
+.modal-content {
+  position: relative;
+  margin: auto;
+  top: 50px;
+  width: 350px;
+  background-color: white;
+  padding: 25px;
+  color: black;
 }
 
 .modal-header {
@@ -85,50 +85,50 @@ body {
 }
 
 .close {
-    width: 30px;
-    height: 30px;
-    border: 0;
-    color: white;
-    background-color: var(--dark-green);
-    cursor: pointer;
-    border-radius: 100%;
-    align-self: center;
-    transition: 0.25s ease-in-out;
-    text-align: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  color: white;
+  background-color: var(--dark-green);
+  cursor: pointer;
+  border-radius: 100%;
+  align-self: center;
+  transition: 0.25s ease-in-out;
+  text-align: center;
 }
 
-.close:hover{
-    transform: rotate(360deg);
-    background-color: darkred;
+.close:hover {
+  transform: rotate(360deg);
+  background-color: darkred;
 }
 
 /* All div children should flex colwise */
 .book-form-input {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
 }
 
 /* Exception for checkbox input */
 #read-input-div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .book-form-buttom-row {
-    display: flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 }
 
-.book-form-buttom-row > button{
-    background-color: var(--mint);
-    color: var(--background-color);
-    border: var(--off-white);
-    height: 40px;
-    border-radius: 5%;
+.book-form-buttom-row > button {
+  background-color: var(--mint);
+  color: var(--background-color);
+  border: var(--off-white);
+  height: 40px;
+  border-radius: 5%;
 }
 
 #library {
