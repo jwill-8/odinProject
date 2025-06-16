@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JW Img Carousel</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <section aria-label="Image Carousel">
+      <div class="carousel" data-carousel>
+        <button class="carousel-button prev" data-carousel-button="prev">
+          &#8656;
+        </button>
+        <button class="carousel-button next" data-carousel-button="next">
+          &#8658;
+        </button>
+        <ul data-slides>
+          <li class="slide" data-active>
+            <img src="./imgs/cacti.jpg" alt="Cacti" />
+          </li>
+          <li class="slide">
+            <img src="./imgs/green.jpg" alt="Golf" />
+          </li>
+          <li class="slide">
+            <img src="./imgs/lighthouse.jpg" alt="LightHouse" />
+          </li>
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>
