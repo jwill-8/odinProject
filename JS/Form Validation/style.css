@@ -1,0 +1,83 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+  font-family: sans-serif;
+}
+
+button {
+  width: 200px;
+  height: 50px;
+  font-size: 1.25rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  transform: scale(1.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form > button {
+  align-self: center;
+}
+
+.form-element {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 500px;
+}
+
+label {
+  width: 200px; /* Ensures labels align */
+  text-align: right;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  width: 200px;
+}
+
+/* Remove arrows for number input */
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrow[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  /* margin: 5px 0 0 240px; align with input */
+  align-self: flex-end;
+  margin-right: 40px;
+}

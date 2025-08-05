@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JW Form Validation</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer type="module"></script>
+  </head>
+  <body>
+    <form novalidate>
+      <div class="form-element">
+        <label for="email">Enter Your Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <p class="error-message" id="email-error"></p>
+      <div class="form-element">
+        <label for="country">Enter Your Country:</label>
+        <input type="text" id="country" name="country" required />
+      </div>
+      <p class="error-message" id="country-error"></p>
+      <div class="form-element">
+        <label for="postal">Enter Your Zip Code:</label>
+        <input
+          type="number"
+          name="postal"
+          id="postal"
+          class="no-arrow"
+          required
+        />
+      </div>
+      <p class="error-message" id="postal-error"></p>
+      <div class="form-element">
+        <label for="password">Enter Password:</label>
+        <input type="password" name="password" id="password" required />
+      </div>
+      <p class="error-message" id="password-error"></p>
+      <div class="form-element">
+        <label for="confirm">Confirm Password:</label>
+        <input type="password" name="confirm" id="confirm" required />
+      </div>
+      <p class="error-message" id="confirm-error"></p>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
