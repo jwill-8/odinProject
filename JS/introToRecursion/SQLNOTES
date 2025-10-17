@@ -1,0 +1,275 @@
+-- 108 ----------------------
+
+-- Write a query to find the companies who signed up in September 2019, 
+-- determine the three companies with the highest number of received emails in February 2020, 
+-- and then list each of their top three flow message_ids from that month based on the 
+--total number of opens. Note: Your query should be ordered by opened count DESC
+WITH
+-- Step 1: Sept-2019 signups
+Sep_signups AS (
+  SELECT id, company_name
+  FROM accounts
+  WHERE date_part('year', signup_date) = 2019
+    AND date_part('month', signup_date) = 9
+),
+
+-- Step 2: Those companies' email sends in Feb-2020 (flows + campaigns)
+Feb_email_sends AS (
+  SELECT
+    send.id,
+    ss.company_name,
+    send.msg_id,
+    send.msg_type,
+    send.receive_count,
+    send.open_count
+  FROM sending AS send
+  INNER JOIN Sep_signups AS ss USING (id)
+  WHERE date_part('year', delivered_date) = 2020
+    AND date_part('month', delivered_date) = 2
+    AND send.msg_type IN ('flow','campaign')
+),
+
+-- Step 3: Top 3 companies by total received emails in Feb-2020
+Top3 AS (
+  SELECT id, total_received
+  FROM (
+    SELECT
+      id,
+      SUM(COALESCE(receive_count, 0)) AS total_received,
+      ROW_NUMBER() OVER (
+        ORDER BY SUM(COALESCE(receive_count, 0)) DESC, id
+      ) AS rn
+    FROM Feb_email_sends
+    GROUP BY id
+  ) s
+  WHERE rn <= 3
+),
+
+-- Step 4: For those companies, top 3 *flow* messages by open_count in Feb-2020
+Feb_flow_msgs_top3 AS (
+  SELECT
+    id,
+    company_name,
+    msg_id,
+    msg_type,
+    open_count
+  FROM (
+    SELECT
+      f.id,
+      f.company_name,
+      f.msg_id,
+      f.msg_type,
+      COALESCE(f.open_count, 0) AS open_count,
+      ROW_NUMBER() OVER (
+        PARTITION BY f.id
+        ORDER BY COALESCE(f.open_count, 0) DESC, f.msg_id
+      ) AS rn
+    FROM Feb_email_sends AS f
+    INNER JOIN Top3 USING (id)
+    WHERE f.msg_type = 'flow'
+  ) x
+  WHERE rn <= 3
+)
+
+-- Final output: order by opened count DESC (global)
+SELECT
+  company_name,
+  msg_id,
+  msg_type,
+  open_count
+FROM Feb_flow_msgs_top3
+ORDER BY open_count DESC, company_name ASC, msg_id ASC;
+
+
+
+
+
+
+-- 107 --------------------------
+-- Write a query to find all the paying customers who sent either 4 or 5 message 
+-- during the week of February 10, 2020; also include how many of the messages 
+-- sent were campaigns, flows, and/or SMS.
+
+-- Note: Include a column for each of the three message types
+WITH 
+-- Step 1: paying customers
+paying_customers AS (
+  SELECT id, company_name
+  FROM accounts
+  WHERE COALESCE(current_mrr, 0) > 0
+),
+
+-- Step 2: sends in the week of 2020-02-10 (Mon-Sun), for paying customers, only 3 msg types
+paying_customers_sending AS (
+  SELECT s.id, s.msg_type
+  FROM sending AS s
+  INNER JOIN paying_customers USING (id)
+  WHERE s.delivered_date::DATE BETWEEN '2020-02-10' AND '2020-02-16'
+    AND s.msg_type IN ('flow','campaign','sms')
+),
+
+-- Step 3: keep customers with exactly 4 or 5 sends in that week
+cust_4_5_sends AS (
+  SELECT id, COUNT(*) AS num_mess
+  FROM paying_customers_sending
+  GROUP BY id
+  HAVING COUNT(*) IN (4,5)
+),
+
+-- Per-type counts in that same week
+channel_counts AS (
+  SELECT 
+    id,
+    SUM(CASE WHEN msg_type='flow'     THEN 1 ELSE 0 END) AS flow,
+    SUM(CASE WHEN msg_type='campaign' THEN 1 ELSE 0 END) AS campaign,
+    SUM(CASE WHEN msg_type='sms'      THEN 1 ELSE 0 END) AS sms
+  FROM paying_customers_sending
+  GROUP BY id
+),
+
+-- Combine totals with per-type breakdown
+all_channel_counts_by_id AS (
+  SELECT 
+    c4.id,
+    c4.num_mess,
+    cc.flow, cc.campaign, cc.sms
+  FROM cust_4_5_sends c4
+  INNER JOIN channel_counts cc USING (id)
+)
+
+-- Final result
+SELECT
+  a.company_name,
+  acc.num_mess,
+  acc.flow,
+  acc.campaign,
+  acc.sms
+FROM all_channel_counts_by_id acc
+JOIN accounts a USING (id)
+ORDER BY a.company_name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Top 2 orders per customer by amount
+WITH r AS (
+  SELECT
+    customer_id, order_id, amount,
+    ROW_NUMBER() OVER (
+      PARTITION BY customer_id
+      ORDER BY amount DESC, order_id
+    ) AS rn
+  FROM orders
+)
+SELECT * FROM r WHERE rn <= 2;
+
+-- Keep latest profile per user
+WITH r AS (
+  SELECT
+    user_id, updated_at, profile_data,
+    ROW_NUMBER() OVER (
+      PARTITION BY user_id
+      ORDER BY updated_at DESC, user_id
+    ) AS rn
+  FROM profiles
+)
+SELECT user_id, updated_at, profile_data
+FROM r
+WHERE rn = 1;
+
+-- Count messages by type per account over a week
+SELECT
+  id,
+  SUM(CASE WHEN msg_type='flow'     THEN 1 ELSE 0 END) AS flow,
+  SUM(CASE WHEN msg_type='campaign' THEN 1 ELSE 0 END) AS campaign,
+  SUM(CASE WHEN msg_type='sms'      THEN 1 ELSE 0 END) AS sms,
+  COUNT(*) AS total_msgs
+FROM sending
+WHERE delivered_date >= TIMESTAMP '2020-02-10'
+  AND delivered_date <  TIMESTAMP '2020-02-17'
+GROUP BY id;
+
+-- Revenue per month (and per customer if you want)
+SELECT
+  DATE_TRUNC('month', ts) AS month_start,
+  SUM(amount) AS revenue
+FROM transactions
+GROUP BY month_start
+ORDER BY month_start;
+
+-- Add customer level
+-- GROUP BY customer_id, DATE_TRUNC('month', ts)
+
+-- CTR: clicks / views (avoid /0, avoid integer division)
+SELECT
+  ad_id,
+  ROUND(100.0 * clicks / NULLIF(views, 0), 2) AS ctr_pct
+FROM (
+  SELECT
+    ad_id,
+    SUM(CASE WHEN event_type='view'  THEN 1 ELSE 0 END) AS views,
+    SUM(CASE WHEN event_type='click' THEN 1 ELSE 0 END) AS clicks
+  FROM ad_events
+  GROUP BY ad_id
+) x;
+
+-- Semi-join: users who had any events in the last 14 days
+SELECT u.user_id
+FROM users u
+WHERE EXISTS (
+  SELECT 1
+  FROM events e
+  WHERE e.user_id = u.user_id
+    AND e.ts >= NOW() - INTERVAL '14 days'
+);
+
+-- Anti-join: users with NO events in the last 14 days
+SELECT u.user_id
+FROM users u
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM events e
+  WHERE e.user_id = u.user_id
+    AND e.ts >= NOW() - INTERVAL '14 days'
+);
+
+-- Month-over-month revenue + running total per customer
+WITH m AS (
+  SELECT
+    customer_id,
+    DATE_TRUNC('month', ts) AS month_start,
+    SUM(amount) AS revenue
+  FROM transactions
+  GROUP BY customer_id, month_start
+)
+SELECT
+  customer_id,
+  month_start,
+  revenue,
+  -- previous month revenue
+  LAG(revenue) OVER (
+    PARTITION BY customer_id
+    ORDER BY month_start
+  ) AS prev_revenue,
+  -- running total
+  SUM(revenue) OVER (
+    PARTITION BY customer_id
+    ORDER BY month_start
+    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+  ) AS running_revenue
+FROM m
+ORDER BY customer_id, month_start;

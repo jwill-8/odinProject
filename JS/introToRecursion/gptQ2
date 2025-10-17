@@ -1,0 +1,26 @@
+WITH flows AS (
+  SELECT id, msg_id, open_count
+  FROM sending
+  WHERE msg_type = 'flow'
+    AND delivered_date >= TIMESTAMP '2020-02-01'
+    AND delivered_date <  TIMESTAMP '2020-03-01'
+),
+open_count_ranks AS (
+  SELECT
+    id,
+    msg_id,
+    open_count,
+    ROW_NUMBER() OVER (
+      PARTITION BY id
+      ORDER BY open_count DESC, msg_id
+    ) AS rn
+  FROM flows
+)
+SELECT
+  a.company_name,
+  o.msg_id,
+  o.open_count
+FROM open_count_ranks o
+JOIN accounts a USING (id)
+WHERE o.rn <= 3
+ORDER BY o.open_count DESC, a.company_name ASC, o.msg_id ASC;

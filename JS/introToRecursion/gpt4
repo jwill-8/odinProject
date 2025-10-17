@@ -1,0 +1,37 @@
+WITH
+-- Sept-2019 signups
+sep_signups AS (
+  SELECT id, company_name
+  FROM accounts
+  WHERE signup_date >= TIMESTAMP '2019-09-01'
+    AND signup_date <  TIMESTAMP '2019-10-01'
+),
+
+-- First flow send date per company (true first, not limited to Feb)
+first_flow AS (
+  SELECT s.id, MIN(s.delivered_date) AS first_flow_date
+  FROM sending s
+  JOIN sep_signups USING (id)
+  WHERE s.msg_type = 'flow'
+  GROUP BY s.id
+),
+
+-- Count ALL messages (any type) from first_flow_date through end of Feb 2020
+sends_through_feb AS (
+  SELECT f.id, COUNT(*) AS sends_through_feb
+  FROM sending s
+  JOIN first_flow f USING (id)
+  WHERE s.delivered_date >= f.first_flow_date
+    AND s.delivered_date <  TIMESTAMP '2020-03-01'
+  GROUP BY f.id
+)
+
+SELECT
+  ss.company_name,
+  f.first_flow_date,
+  stf.sends_through_feb
+FROM first_flow f
+JOIN sep_signups ss USING (id)
+JOIN sends_through_feb stf USING (id)
+ORDER BY ss.company_name;
+

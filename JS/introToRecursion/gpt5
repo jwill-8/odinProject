@@ -1,0 +1,25 @@
+WITH 
+paying_customers AS (
+    SELECT id, company_name
+    FROM accounts
+    WHERE current_mrr > 0
+), 
+send_summary AS (
+    SELECT
+    id,
+    SUM (CASE WHEN msg_type = 'flow' THEN1 , ELSE 0 END) AS flow_sends,
+    SUM (CASE WHEN msg_type = 'campaign' THEN 1 ELSE 0 END) AS campaign_sends,
+    SUM (CASE WHEN msg_type = 'sms' THEN 1 ELSE 0 END) AS sms_sends
+    FROM sending
+    WHERE delivered_date >= TIMESTAMP '2020-02-01' AND
+    delivered_date <= TIMESTAMP '2020-03-01'
+    GROUP BY id
+    HAVING SUM (CASE WHEN msg_type = 'sms' 1 ELSE 0 END) >= 1
+    AND SUM (CASE WHEN msg_type = 'campaign' 1 ELSE 0 END) = 0
+) 
+
+SELECT 
+pc.company_name, ss.sms_sends, ss.flow_sends
+FROM send_summary AS ss
+INNER JOIN paying_customers AS pc USING (id)
+ORDER BY pc.company_name

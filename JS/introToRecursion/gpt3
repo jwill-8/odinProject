@@ -1,0 +1,33 @@
+WITH 
+WITH feb_email AS (
+  SELECT id, open_count, click_count
+  FROM sending
+  WHERE msg_type IN ('flow','campaign')
+    AND delivered_date >= TIMESTAMP '2020-02-01'
+    AND delivered_date <  TIMESTAMP '2020-03-01'
+),
+company_totals AS (
+  SELECT
+    id,
+    SUM(open_count)  AS total_opens,
+    SUM(click_count) AS total_clicks
+  FROM feb_email
+  GROUP BY id
+  HAVING SUM(open_count) >= 100
+)
+
+-- final res
+SELECT *
+FROM (
+  SELECT
+    a.company_name,
+    ct.total_opens,
+    ct.total_clicks,
+    ROUND(100.0 * ct.total_clicks / NULLIF(ct.total_opens, 0), 2) AS ctor_pct,
+    ROW_NUMBER() OVER (
+      ORDER BY ROUND(100.0 * ct.total_clicks / NULLIF(ct.total_opens, 0), 2) DESC, a.company_name
+    ) AS ctor_rank
+  FROM company_totals ct
+  JOIN accounts a USING (id)
+) x
+WHERE ctor_rank <= 5;

@@ -1,0 +1,36 @@
+WITH 
+paying_customers AS (
+    SELECT
+    id,
+    current_mrr > 0 
+    FROM accounts
+),
+paying_customers_sending AS (
+    SELECT 
+    s.id, s.msg_type 
+    FROM sending AS s
+    INNER JOIN paying_customers USING (id)
+    WHERE 
+    s.delivered_date >= TIMESTAMP '2020-02-10' AND 
+    s.delivered_date <= TIMESTAMP '2020-02-17' 
+),
+channel_counts AS (
+    SELECT
+    id
+    FROM paying_customers_sending
+    COUNT(*) AS num_mess,
+    SUM(CASE WHEN msg_type = 'flow' THEN 1 ELSE 0 END) AS flow,
+    SUM (CASE WHEN msg_type = 'campaign' THEN 1 ELSE 0 END) AS campaign,
+    SUM (CASE WHEN msg_type = 'sms' THEN 1 ELSE 0 END) AS sms,
+    GROUP BY id
+    HAVING COUNT (*) IN (4,5)
+)
+
+SELECT
+a.company_name,
+cc.num_mess,
+cc.flow,
+cc.campaign,
+cc.sms
+FROM channel_counts AS cc
+INNER JOIN account AS a USING (id)
